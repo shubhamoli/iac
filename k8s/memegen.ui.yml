@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ui-svc
+  namespace: memegen-prod
   labels:
     app: ui
     tier: frontend
@@ -20,6 +21,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: memegen-prod
   name: ui-dep
 spec:
   selector:

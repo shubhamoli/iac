@@ -2,7 +2,7 @@
 # kind: Secret
 # metadata:
 #   name: memegen-tls
-#   namespace: default
+#   namespace: memegen-prod
 # data:
 #   tls.crt: base64 encoded cert
 #   tls.key: base64 encoded key
