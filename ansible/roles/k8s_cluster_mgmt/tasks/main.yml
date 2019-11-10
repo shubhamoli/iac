@@ -1,0 +1,29 @@
+- name: "Check kops binary is present or not"
+  stat: path={{ kops_bin_basepath/kops_bin }}
+  register: kops_bin_stat
+
+- name: "Check kubectl binary is present or not"
+  stat: path={{ kubectl_bin_basepath/kubectl_bin }}
+  register: kubectl_bin_stat
+
+- include_tasks: install_kops.yml
+  when: kops_bin_state.stat.exists == False
+
+- include_tasks: install_kubectl.tml
+  when: kubectl_bin_stat.stat.exists == False
+
+- name: "Create directory to pull iac code"
+  become: yes
+  file:
+    path: {{ iac_repo_dest }}
+    state: directory
+    owner: ec2-user
+    group: ec2-user
+    mode: 0755
+
+- name: "Pull latest code from memgen/k8s repository"
+  git:
+    repo: "https://github.com/shubhamoli/iac.git"
+    dest: "{{ iac_repo_dest }}"
+    clone: yes
+    update: yes

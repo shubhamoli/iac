@@ -1,0 +1,14 @@
+
+kops_download_url: https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-darwin-amd64
+kubetctil_download_url: https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/darwin/amd64/kubectl
+
+kops_download_location: /tmp
+kubectl_download_location: /tmp
+
+kops_bin: kops
+kubectl_bin: kubectl
+
+kops_bin_basepath: /usr/local/bin/
+kubectl_bin_basepath: /usr/local/bin/
+
+iac_repo_dest: /opt/apps

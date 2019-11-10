@@ -1,0 +1,17 @@
+- name: "Fetch kubectl binary"
+  get_url:
+    url: "{{ kubectl_download_url }}"
+    dest: "{{ kubectl_download_path }}"
+
+- name: "Move kubectl bin to kubectl_bin_basepath"
+  become: yes
+  command: mv {{ kubectl_download_path }}/{{ kubectl_bin }} {{ kubectl_bin_basepath }}
+
+- name: "Make kubectl bin executable"
+  become: yes
+  file: 
+    path:{{ kubectl_bin_basepath}}/{{ kubectl_bin }}
+    owner: ec2-user
+    group: ec2-user
+    mode: u+rw,g-wx,o-rwx
+  
