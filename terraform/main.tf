@@ -4,7 +4,7 @@ terraform {
 
 resource "aws_key_pair" "memegen_prod" {
   key_name   = "Memegen-Prod"
-  public_key = "${file(var.public_key)}"
+  public_key = "${file(var.ssh_public_key)}"
 }
 
 resource "aws_security_group" "ssh_external" {
@@ -19,7 +19,7 @@ resource "aws_security_group" "ssh_external" {
 
     vpc_id = "${aws_vpc.default.id}"
 
-    tags {
+    tags = {
         Name = "SSH-External"
     }
 }
@@ -49,17 +49,17 @@ resource "aws_instance" "k8s_cluster_manager" {
         delete_on_termination = false
     }
 
-    tags {
+    tags = {
         Name = "K8s Cluster Manager"
     }
 
     provisioner "local-exec" {
         command = <<EOT
-            sleep 30;
-            > ansible/hosts;
+            sleep 120;
+            > ../ansible/hosts;
 	        echo "${aws_instance.k8s_cluster_manager.public_ip} ansible_user=${var.ansible_user} ansible_ssh_private_key_file=${var.ssh_private_key}" | tee -a ansible/hosts;
       	    export ANSIBLE_HOST_KEY_CHECKING=False;
-	        ansible-playbook -u ${var.ansible_user} --private-key ${var.ssh_private_key} -i hosts ./ansible/playbooks/k8s_cluster_manager.yaml
+	        ansible-playbook -u ${var.ansible_user} --private-key ${var.ssh_private_key} -i hosts ../ansible/playbooks/k8s_cluster_manager.yaml
     	    EOT
     }
     

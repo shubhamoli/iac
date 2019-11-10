@@ -6,7 +6,7 @@ resource "aws_vpc" "default" {
     instance_tenancy     = "default"
     enable_classiclink   = "false"
     
-    tags {
+    tags = {
         Name = "Memegen-VPC"
     }
 }
@@ -21,7 +21,7 @@ resource "aws_subnet" "public_subnet" {
     cidr_block = "${var.public_subnet_cidr}"
     availability_zone = "ap-south-1a"
 
-    tags {
+    tags = {
         Name = "Public Subnet"
     }
 }
@@ -34,7 +34,7 @@ resource "aws_route_table" "public_subnet" {
         gateway_id = "${aws_internet_gateway.default.id}"
     }
 
-    tags {
+    tags = {
         Name = "Public Subnet"
     }
 }
