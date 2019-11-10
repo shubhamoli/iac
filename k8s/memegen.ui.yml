@@ -1,0 +1,58 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui-svc
+  labels:
+    app: ui
+    tier: frontend
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3000
+      nodePort: 30802
+  selector:
+    app: ui
+    tier: frontend
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-dep
+spec:
+  selector:
+    matchLabels:
+      app: ui
+      tier: frontend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: ui
+        tier: frontend
+        config_ver: "17"         # HACK: to update deployment even if image's version doesn't change
+    spec:
+      containers:
+      - name: ui
+        image: ui:latest
+        imagePullPolicy: Never
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+          - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /health-check
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /health-check
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5

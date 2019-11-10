@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: memegen-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  # tls:
+  #   - hosts:
+  #       - sslexample.foo.com
+  #     secretName: memegen-tls
+  rules:
+    - http:
+        paths:
+          - path: /api
+            backend:
+              serviceName: api-svc
+              servicePort: 80
+          - path: /
+            backend:
+              serviceName: ui-svc
+              servicePort: 80

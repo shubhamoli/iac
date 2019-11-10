@@ -1,0 +1,5 @@
+- hosts: k8s_cluster_manager
+  remote_user: ec2-user
+  roles:
+    - role: ./roles/k8s_cluster_mgmt
+  vars:
