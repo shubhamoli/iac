@@ -1,7 +1,8 @@
 - name: "Fetch kubectl binary"
   get_url:
     url: "{{ kubectl_download_url }}"
-    dest: "{{ kubectl_download_path }}"
+    dest: "{{ kubectl_download_path }}/{{ kubectl_bin }}"
+    timeout: 30
 
 - name: "Move kubectl bin to kubectl_bin_basepath"
   become: yes
@@ -10,8 +11,8 @@
 - name: "Make kubectl bin executable"
   become: yes
   file: 
-    path:{{ kubectl_bin_basepath}}/{{ kubectl_bin }}
+    path: "{{ kubectl_bin_basepath}}/{{ kubectl_bin }}"
     owner: ec2-user
     group: ec2-user
-    mode: u+rw,g-wx,o-rwx
+    mode: u+rwx,g-wx,o-rwx
   

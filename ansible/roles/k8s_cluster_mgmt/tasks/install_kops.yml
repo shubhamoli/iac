@@ -1,7 +1,8 @@
 - name: "Fetch kops binary"
   get_url:
     url: "{{ kops_download_url }}"
-    dest: "{{ kops_download_path }}"
+    dest: "{{ kops_download_path }}/{{ kops_bin }}"
+    timeout: 30
 
 - name: "Move kops bin to kops_bin_basepath"
   become: yes
@@ -10,8 +11,8 @@
 - name: "Make kops bin executable"
   become: yes
   file: 
-    path:{{ kops_bin_basepath}}/{{ kops_bin }}
+    path: "{{ kops_bin_basepath }}/{{ kops_bin }}"
     owner: ec2-user
     group: ec2-user
-    mode: u+rw,g-wx,o-rwx
+    mode: u+rwx,g-wx,o-rwx
   
