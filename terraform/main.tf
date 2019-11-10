@@ -73,17 +73,8 @@ resource "aws_instance" "k8s_cluster_manager" {
         Name = "K8s Cluster Manager"
     }
 
-    provisioner "local-exec" {
-        command = <<EOT
-            sleep 120;
-            > ../ansible/hosts;
-	        echo "${aws_instance.k8s_cluster_manager.public_ip} ansible_user=${var.ansible_user} ansible_ssh_private_key_file=${var.ssh_private_key}" | tee -a ansible/hosts;
-      	    export ANSIBLE_HOST_KEY_CHECKING=False;
-	        ansible-playbook -u ${var.ansible_user} --private-key ${var.ssh_private_key} -i hosts ../ansible/playbooks/k8s_cluster_manager.yml
-    	    EOT
-    }
-    
-    # Note: Not adding any destroy time provisioner
+    # Note: Not adding any provisioner here. Can execute ansible-playbook here
+    #       playbook is at ../ansible/playbooks/k8s_cluster_manager.yml"
 }
 
 resource "aws_eip" "k8s_cluster_manager" {
