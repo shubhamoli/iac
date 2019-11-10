@@ -1,6 +1,14 @@
 terraform {
   required_version = "0.12.13"
+
+  backend "s3" {
+    bucket = "tf-state-memegen"
+    key    = "memegen/prod"
+    region = "${var.region}"
+    profile = "${var.profile}"
+  }
 }
+
 
 resource "aws_key_pair" "memegen_prod" {
   key_name   = "Memegen-Prod"
@@ -59,7 +67,7 @@ resource "aws_instance" "k8s_cluster_manager" {
             > ../ansible/hosts;
 	        echo "${aws_instance.k8s_cluster_manager.public_ip} ansible_user=${var.ansible_user} ansible_ssh_private_key_file=${var.ssh_private_key}" | tee -a ansible/hosts;
       	    export ANSIBLE_HOST_KEY_CHECKING=False;
-	        ansible-playbook -u ${var.ansible_user} --private-key ${var.ssh_private_key} -i hosts ../ansible/playbooks/k8s_cluster_manager.yaml
+	        ansible-playbook -u ${var.ansible_user} --private-key ${var.ssh_private_key} -i hosts ../ansible/playbooks/k8s_cluster_manager.yml
     	    EOT
     }
     
