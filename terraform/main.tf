@@ -84,6 +84,21 @@ resource "aws_instance" "k8s_cluster_manager" {
     #       playbook is at ../ansible/playbooks/k8s_cluster_manager.yml"
 }
 
+
+resource "aws_s3_bucket" "memegen-kops-cluster-state" {
+  bucket = "memegen-kops-cluster-state"
+  acl    = "private"
+
+  versioning {
+    enabled = true
+  }
+
+  tags = {
+    Name        = "memegen-kops-cluster-state"
+    Environment = "Prod"
+  }
+}
+
 resource "aws_eip" "k8s_cluster_manager" {
     instance = "${aws_instance.k8s_cluster_manager.id}"
     vpc = true

@@ -33,3 +33,10 @@
     dest: "{{ iac_repo_dest }}"
     clone: yes
     update: yes
+
+- name: "Check if cluster config exists"
+  stat: "{{ iac_repo_dest }}/k8s/kops-cluster-memegen.yml"
+  register: cluster_config_stat
+
+- include_tasks: create-cluster.yml
+  when: cluster_config_stat.stat.exists == False 

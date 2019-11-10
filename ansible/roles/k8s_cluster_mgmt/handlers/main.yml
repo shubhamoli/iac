@@ -1,0 +1,2 @@
+- name: create-cluster
+  command: "kops create cluster -f {{ iac_repo_dest }}/k8s/kops-cluster-memegen.yml"
