@@ -51,19 +51,22 @@ resource "aws_subnet" "private_subnet" {
     cidr_block = "${var.private_subnet_cidr}"
     availability_zone = "ap-south-1b"
 
-    tags {
+    tags = {
         Name = "Private Subnet"
     }
 }
+
+
 
 resource "aws_route_table" "private_subnet" {
     vpc_id = "${aws_vpc.default.id}"
 
     route {
         cidr_block = "0.0.0.0/0"
+        gateway_id = "${aws_internet_gateway.default.id}"
     }
 
-    tags {
+    tags = {
         Name = "Private Subnet"
     }
 }
