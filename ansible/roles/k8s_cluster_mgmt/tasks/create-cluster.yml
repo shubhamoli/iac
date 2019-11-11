@@ -9,8 +9,10 @@
 
 - name: "Run command to create cluster config"
   command: "/bin/sh {{ iac_repo_dest }}/k8s/kops_create_cluster.sh"
-  notify: create-cluster
 
 # after this you need to handle creation of bastion server in case of private toplology by SSHing into the instance
-
+#
+# See this issue related to bastion in private topology:
+#
+# https://github.com/kubernetes/kops/blob/master/docs/examples/kops-tests-private-net-bastion-host.md
   

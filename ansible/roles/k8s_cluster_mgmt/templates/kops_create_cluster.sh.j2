@@ -27,7 +27,7 @@ if [[ ! $(kops get cluster --name "${NAME}" --state "${KOPS_STATE_STORE}") ]]; t
         --output yaml \
         --dry-run
     
-    kops create cluster -f /opt/apps/k8s/{{ cluster_state_local_file }}.yml
+    kops create -f /opt/apps/k8s/{{ cluster_state_local_file }}.yml
 else
     exit 0
 fi
