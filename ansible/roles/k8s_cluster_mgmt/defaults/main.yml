@@ -23,7 +23,7 @@ cluster_state_store: s3://memegen-kops-cluster-state
 cluster_region: ap-south-1
 cluster_topology: private
 cluster_cnp: calico
-cluster_state_local: kops-cluster-memegen
+cluster_state_local_file: kops-cluster-memegen
 
 cluster_master_zones: ap-south-1a
 cluster_AZs: ap-south-1a,ap-south-1b
@@ -37,5 +37,5 @@ cluster_worker_node_type: t3.small
 cluster_worker_node_vol_size: 50
 cluster_master_node_vol_size: 50
 
-cluster_setup_bastion: true
+cluster_setup_bastion: "false"
 cluster_cloud_labels: "Team=DevOps,Owner=Shubham-Oli,ManagedBy=k8s"

@@ -44,4 +44,31 @@ resource "aws_route_table_association" "public_subnet" {
     route_table_id = "${aws_route_table.public_subnet.id}"
 }
 
-# Important: Not creating private subnets as we don't need one right now
+# Private subnet configured below
+resource "aws_subnet" "private_subnet" {
+    vpc_id = "${aws_vpc.default.id}"
+
+    cidr_block = "${var.private_subnet_cidr}"
+    availability_zone = "ap-south-1b"
+
+    tags {
+        Name = "Private Subnet"
+    }
+}
+
+resource "aws_route_table" "private_subnet" {
+    vpc_id = "${aws_vpc.default.id}"
+
+    route {
+        cidr_block = "0.0.0.0/0"
+    }
+
+    tags {
+        Name = "Private Subnet"
+    }
+}
+
+resource "aws_route_table_association" "private_subnet" {
+    subnet_id = "${aws_subnet.private_subnet.id}"
+    route_table_id = "${aws_route_table.private_subnet.id}"
+}

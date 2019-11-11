@@ -4,8 +4,8 @@ terraform {
   backend "s3" {
     bucket = "tf-state-memegen"
     key    = "memegen/prod"
-    region = "${var.region}"
-    profile = "${var.profile}"
+    region = "ap-south-1"
+    profile = "memegen"
     dynamodb_table = "terraform-lock"
   }
 }

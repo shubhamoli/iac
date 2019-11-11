@@ -3,3 +3,4 @@
   roles:
     - role: ./roles/k8s_cluster_mgmt
   vars:
+    current_user_home: "{{ lookup('env','HOME') }}"

@@ -1,3 +1,13 @@
+- name: "Check SSH key exists for ec2-user"
+  stat: path="{{ current_user_home }}/.ssh/id_rsa.pub
+  register: ssh_key_exists_stat
+
+- name: "Create SSH keys if not present"
+  command: ssh-keygen -q -t -f {{current_user_home}}/.ssh/id_rsa rsa -C "" -N ""
+  args:
+    creates: "{{ current_user_home }}/.ssh/id_rsa.pub"
+  when: ssh_key_exists_stat.stat.exists == False
+
 - name: "Check kops binary is present or not"
   stat: path="{{ kops_bin_basepath }}/{{ kops_bin }}"
   register: kops_bin_stat
@@ -35,7 +45,7 @@
     update: yes
 
 - name: "Check if cluster config exists"
-  stat: "{{ iac_repo_dest }}/k8s/kops-cluster-memegen.yml"
+  stat: path="{{ iac_repo_dest }}/k8s/kops-cluster-memegen.yml"
   register: cluster_config_stat
 
 - include_tasks: create-cluster.yml

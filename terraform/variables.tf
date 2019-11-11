@@ -20,13 +20,10 @@ variable "public_subnet_cidr" {
     description = "CIDR for the Public Subnet"
     default = "172.30.0.0/24"
 }
-
-# Not creating a private_subnet as we don't need one right now
-#
-# variable "private_subnet_cidr" {
-#     description = "CIDR for the Private Subnet"
-#     default = "172.30.1.0/24"
-# }
+variable "private_subnet_cidr" {
+    description = "CIDR for the Private Subnet"
+    default = "172.30.1.0/24"
+}
 
 variable "ssh_public_key" {
   description = "location of public key"
