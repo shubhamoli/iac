@@ -1,5 +1,5 @@
 - name: "Check SSH key exists for ec2-user"
-  stat: path="{{ current_user_home }}/.ssh/id_rsa.pub
+  stat: path="{{ current_user_home }}/.ssh/id_rsa.pub"
   register: ssh_key_exists_stat
 
 - name: "Create SSH keys if not present"
