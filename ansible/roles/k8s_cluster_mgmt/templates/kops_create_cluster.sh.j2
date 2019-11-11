@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -e 
+
+export NAME="{{ cluster_name }}"
+export KOPS_STATE_STORE="{{ cluster_state_store }}"
+
+kops create cluster  \
+    --node-count {{ cluster_worker_node_count }} \
+    --state ${KOPS_STATE_STORE} \
+    --zones {{ cluster_AZs }} \
+    --master-count {{ cluster_master_node_count }} \
+    --master-zones {{ cluster_master_zones }} \
+    --node-size {{ cluster_worker_node_type }} \
+    --node-volume-size {{ cluster_worker_node_vol_size }} \
+    --master-size {{ cluster_master_node_type }} \
+    --master-volume-size {{ cluster_master_node_vol_size }} \
+    --topology {{ cluster_topology }} \
+    --networking {{ cluster_cnp }} \
+    --bastion="{{ cluster_setup_bastion }}"
+    --cloud-labels {{ cluster_cloud_labels }} \
+    --encrypt-etcd-storage  \
+    —-dry-run
+    --out /opt/apps/k8s/{{ cluster_state_local_file }}.yml
+    --output yaml
+    ${NAME}

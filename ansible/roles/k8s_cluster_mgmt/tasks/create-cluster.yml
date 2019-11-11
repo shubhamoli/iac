@@ -1,0 +1,15 @@
+
+- name: "Copy .sh to create cluster"
+  template:
+    src: kops_create_cluster.sh.j2
+    dest: "{{ iac_repo_dest }}/k8s/kops_create_cluster.sh"
+    owner: ec2-user
+    group: ec2-user
+    mode: 0744
+
+- name: "Run command to create cluster config"
+  command: "/bin/sh {{ iac_repo_dest }}/k8s/kops_create_cluster.sh"
+  notify: create-cluster
+
+
+  
