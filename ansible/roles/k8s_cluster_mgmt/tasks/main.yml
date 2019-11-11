@@ -44,6 +44,17 @@
     clone: yes
     update: yes
 
+- name: "Adding NAME and KOPS_STATE_STORE in .bashrc to export"
+  lineinfile:
+    dest: "{{ current_user_home }}/.bashrc"
+    owner: ec2-user
+    state: present
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - { line: "export NAME={{ cluster_name }}", regexp: "^export NAME="}
+    - { line: "export KOPS_STATE_STORE={{ cluster_state_store }}", regexp: "^export KOPS_STATE_STORE="}
+
 - name: "Check if cluster config exists"
   stat: path="{{ iac_repo_dest }}/k8s/kops-cluster-memegen.yml"
   register: cluster_config_stat
