@@ -1,0 +1,10 @@
+---
+
+- include_tasks: install-java.yml
+- include_tasks: install-jenkins.yml
+- include_tasks: install-plugins.yml
+
+# Now Installing Jenkins
+
+
+

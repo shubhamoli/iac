@@ -1,0 +1,12 @@
+---
+- name: "Enable java-openjdk11 first"
+  become: yes
+  command: "amazon-linux-extras enable java-openjdk11"     # Workaround: unable to find a suitable module for amazon-linux=extras
+  args:
+    creates: /usr/bin/java 
+
+- name: "Install OpenJDK 11 as oracle licensed java :-("
+  become: yes
+  yum: 
+    name: java-11-openjdk
+    state: present
