@@ -65,7 +65,7 @@ resource "aws_iam_role_policy" "kops_req_policy" {
                 "route53:*",
                 "cloudfront:ListDistributions",
                 "s3:GetBucketLocation",
-                "elasticloadbalancing:DescribeTargetGroups",
+                "elasticloadbalancing:*",
                 "autoscaling:*"
             ],
             "Resource": "*"
