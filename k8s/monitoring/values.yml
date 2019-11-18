@@ -1,0 +1,5 @@
+--- 
+sidecar:
+  datasources:
+    enabled: true
+    label: grafana_datasource  # This will inject a sidecar which will load all the data sources into Grafana when it gets provisioned

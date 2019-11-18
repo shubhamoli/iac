@@ -19,15 +19,11 @@ if [[ ! $(kops get cluster --name "${NAME}" --state "${KOPS_STATE_STORE}") ]]; t
         --master-size {{ cluster_master_node_type }} \
         --master-volume-size {{ cluster_master_node_vol_size }} \
         --topology {{ cluster_topology }} \
-        --bastion="{{ cluster_setup_bastion }}"
+        --bastion="{{ cluster_setup_bastion }}" \
         --networking {{ cluster_cnp }} \
         --cloud-labels {{ cluster_cloud_labels }} \
         --encrypt-etcd-storage  \
-        --out /opt/apps/k8s/{{ cluster_state_local_file }}.yml \
-        --output yaml \
-        --dry-run
-    
-    kops create -f /opt/apps/k8s/{{ cluster_state_local_file }}.yml
+        --yes
 else
     exit 0
 fi

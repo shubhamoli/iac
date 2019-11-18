@@ -5,7 +5,7 @@
   args:
     creates: /usr/bin/java 
 
-- name: "Install OpenJDK 11 as oracle licensed java :-("
+- name: "Install OpenJDK 11 as oracle licensed java :-( ..."
   become: yes
   yum: 
     name: java-11-openjdk

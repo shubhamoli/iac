@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
       - name: ui
-        image: ui:latest
+        image: ui:${BUILD_NUMBER}        # to be replaced by jenkins' kubernetes-cd plugin
         imagePullPolicy: Never
         resources:
           requests:

@@ -2,34 +2,42 @@
 - name: "Add jenkins repository"
   become: yes
   get_url:
-      url: {{ jenkins_repo_url }}
-      dest: {{ jenkins_repo_path }}
+    url: "{{ jenkins_repo_url }}"
+    dest: "{{ jenkins_repo_path }}"
 
 - name: "Add jenkins-ci key file"
   become: yes
   rpm_key:
     state: present
-    key: {{ jenkins_key_file_url }}
+    key: "{{ jenkins_key_file_url }}"
   
 - name: "Finally, install Jenkins"
   become: yes
   yum:
     name: jenkins
     state: present
-  
-- name: "Start Jenkins Server"
   notify: restart-jenkins-server
 
+- name: "Check initialAdminPassword has been created"
+  become: yes
+  stat: "path={{ jenkins_home }}/secrets/initialAdminPassword"
+  register: pass_file_stat
 
 - name: "Print Admin Pass to unlock jenkins"
+  become: yes
   slurp:
-    src:  {{ jenkins_home }}/secrets/initialAdminPassword
+    src: "{{ jenkins_home }}/secrets/initialAdminPassword"
   register: admin_pass
+  when: pass_file_stat.stat.exists == True
 
 - debug:
-    msg: "{{ admin_pass['stdout'] }}"
+    msg: "{{ admin_pass['content'] | b64decode }}"
+  when: pass_file_stat.stat.exists == True
 
 - name: "Set jenkins password as variable"
   set_fact:
-    jenkins_admin_password: "{{ admin_pass['stdout'] }}"
-  no_log: true
+    jenkins_admin_password: "{{ admin_pass['content'] | b64decode }}"
+  when: pass_file_stat.stat.exists == True
+
+# To make sure admin password takes effect
+- meta: flush_handlers

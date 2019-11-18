@@ -1,5 +1,6 @@
 ---
 - name: "restart-jenkins-server"
+  become: yes
   systemd: 
     name: jenkins.service
     enabled: yes

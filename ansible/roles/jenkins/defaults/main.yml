@@ -22,15 +22,18 @@ jenkins_plugins: ["build-timeout",
                   "credentials-binding", 
                   "timestamper", 
                   "pipeline-stage-view", 
+                  "pipeline",
+                  "blueocean",
                   "git", 
                   "ssh-slaves", 
                   "matrix-auth", 
                   "mailer", 
-                  "docker-plugin",
-                  "kubernetes",
+                  "docker-workflow",
+                  "kubernetes-cd",       # official K8s plugin for CD in k8s cluster
                   "ssh-agent",
                   "ssh",
                   "ws-cleanup",
+                  "workflow-aggregator",    # pipeline plugin
                   "build-pipeline-plugin"
 ]
 

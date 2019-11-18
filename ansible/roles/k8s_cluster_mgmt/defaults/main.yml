@@ -39,3 +39,9 @@ cluster_master_node_vol_size: 50
 
 cluster_setup_bastion: "false"
 cluster_cloud_labels: "Team=DevOps,Owner=Shubham-Oli,ManagedBy=k8s"
+
+helm_version: "v3.0.0"
+helm_bin: "helm"
+helm_url: "https://get.helm.sh/helm-{{ helm_version }}-linux-amd64.tar.gz"
+helm_download_path: "/tmp/"
+helm_bin_basepath: /usr/local/bin/

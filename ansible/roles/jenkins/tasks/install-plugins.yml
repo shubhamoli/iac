@@ -2,13 +2,15 @@
 
 # Update Jenkins so that plugin updates don't fail.
 - name: "Create Jenkins updates directory"
+  become: yes
   file:
     path: "{{ jenkins_home }}/updates"
     state: directory
     owner: jenkins
     group: jenkins
 
-- name: "Download current plugin updates from Jenkins updats url"
+- name: "Download current plugin updates from Jenkins updates url"
+  become: yes
   get_url:
     url: "{{ jenkins_updates_url }}/update-center.json"
     dest: "{{ jenkins_home }}/updates/default.json"
@@ -21,19 +23,22 @@
   retries: 3
   delay: 2
 
-- name: Remove first and last line from json file.
+- name: "Remove first and last line from json file"
+  become: yes
   replace:
     path: "{{ jenkins_home }}/updates/default.json"
     regexp: "1d;$d"
 
 
-- name: Install Jenkins plugins using password.
+- name: "Install Jenkins plugins"
   jenkins_plugin:
     name: "{{ item }}"
+    force_basic_auth: yes
+    force: yes
     jenkins_home: "{{ jenkins_home }}"
     url_username: "{{ jenkins_admin_username }}"
     url_password: "{{ jenkins_admin_password }}"
-    state: {{ jenkins_plugins_state }}
+    state: "{{ jenkins_plugins_state }}"
     timeout: "{{ jenkins_plugin_timeout }}"
     updates_expiration: "{{ jenkins_plugin_updates_expiration }}"
     updates_url: "{{ jenkins_updates_url }}"
@@ -46,3 +51,5 @@
   until: plugin_result is success
   retries: 3
   delay: 2
+
+- meta: flush_handlers
